@@ -25,6 +25,7 @@ final class TableOfContentsWrapperRenderer implements NodeRendererInterface, Xml
 {
     /**
      * {@inheritDoc}
+     *
      * @throws InvalidArgumentException
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
@@ -32,6 +33,7 @@ final class TableOfContentsWrapperRenderer implements NodeRendererInterface, Xml
         TableOfContentsWrapper::assertInstanceOf($node);
         $children = $node->children();
         if (! \is_array($children)) {
+            /** @psalm-suppress NoValue */
             $children = \iterator_to_array($children);
         }
 

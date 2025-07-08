@@ -21,6 +21,8 @@ interface TableOfContentsGeneratorInterface
     /**
      * If there is a table of contents, returns either a `TableOfContents` or
      * `TableOfContentsWrapper` node object.
+     *
+     * @psalm-return TableOfContents|TableOfContentsWrapper
      */
     public function generate(Document $document): ?AbstractBlock;
 }

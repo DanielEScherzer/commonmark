@@ -25,6 +25,7 @@ final class TableOfContentsWrapper extends AbstractBlock
     {
         $children = $this->children();
         if (! \is_array($children)) {
+            /** @psalm-suppress NoValue */
             $children = \iterator_to_array($children);
         }
 

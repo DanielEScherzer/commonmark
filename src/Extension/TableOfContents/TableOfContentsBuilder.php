@@ -92,6 +92,7 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
                 'Toc should be a TableOfContents or TableOfContentsWrapper, got ' . \get_class($toc)
             );
         }
+
         foreach ($document->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
             if (! $node instanceof Heading) {
                 continue;
