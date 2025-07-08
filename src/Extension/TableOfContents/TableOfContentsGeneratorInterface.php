@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\TableOfContents;
 
+use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
+use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsWrapper;
 use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Node\Block\Document;
 
