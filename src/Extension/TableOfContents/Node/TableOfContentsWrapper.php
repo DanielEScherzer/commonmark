@@ -13,14 +13,11 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\TableOfContents\Node;
 
-use InvalidArgumentException;
+use League\CommonMark\Exception\InvalidArgumentException;
 use League\CommonMark\Node\Block\AbstractBlock;
 
 final class TableOfContentsWrapper extends AbstractBlock
 {
-    /**
-     * @throws InvalidArgumentException
-     */
     public function getInnerToc(): TableOfContents
     {
         $children = $this->children();

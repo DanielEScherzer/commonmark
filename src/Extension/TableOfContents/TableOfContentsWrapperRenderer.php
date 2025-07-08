@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\TableOfContents;
 
-use InvalidArgumentException;
+use League\CommonMark\Exception\InvalidArgumentException;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsWrapper;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
@@ -25,8 +25,6 @@ final class TableOfContentsWrapperRenderer implements NodeRendererInterface, Xml
 {
     /**
      * {@inheritDoc}
-     *
-     * @throws InvalidArgumentException
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {

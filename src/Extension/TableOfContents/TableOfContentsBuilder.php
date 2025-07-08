@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\TableOfContents;
 
-use InvalidArgumentException;
 use League\CommonMark\Event\DocumentParsedEvent;
+use League\CommonMark\Exception\InvalidArgumentException;
 use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalink;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
@@ -82,11 +82,10 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
      * @psalm-param TableOfContents|TableOfContentsWrapper $toc
      *
      * @phpstan-param TableOfContents|TableOfContentsWrapper $toc
-     *
-     * @throws InvalidArgumentException
      */
     private function insertBeforeFirstLinkedHeading(Document $document, AbstractBlock $toc): void
     {
+        // @phpstan-ignore booleanAnd.alwaysFalse
         if (! $toc instanceof TableOfContents && ! $toc instanceof TableOfContentsWrapper) {
             throw new InvalidArgumentException(
                 'Toc should be a TableOfContents or TableOfContentsWrapper, got ' . \get_class($toc)
@@ -112,11 +111,10 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
      * @psalm-param TableOfContents|TableOfContentsWrapper $toc
      *
      * @phpstan-param TableOfContents|TableOfContentsWrapper $toc
-     *
-     * @throws InvalidArgumentException
      */
     private function replacePlaceholders(Document $document, AbstractBlock $toc): void
     {
+        // @phpstan-ignore booleanAnd.alwaysFalse
         if (! $toc instanceof TableOfContents && ! $toc instanceof TableOfContentsWrapper) {
             throw new InvalidArgumentException(
                 'Toc should be a TableOfContents or TableOfContentsWrapper, got ' . \get_class($toc)
