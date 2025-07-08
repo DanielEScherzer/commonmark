@@ -131,6 +131,7 @@ final class TableOfContentsGenerator implements TableOfContentsGeneratorInterfac
             $wrapper->appendChild($toc);
             $wrapper->setStartLine($toc->getStartLine());
             $wrapper->setEndLine($toc->getEndLine());
+
             return $wrapper;
         }
 

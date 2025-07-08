@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\TableOfContents;
 
+use InvalidArgumentException;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalink;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsPlaceholder;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsWrapper;
+use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\NodeIterator;
 use League\Config\ConfigurationAwareInterface;
@@ -76,8 +78,20 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
         }
     }
 
-    private function insertBeforeFirstLinkedHeading(Document $document, TableOfContents $toc): void
+    /**
+     * @psalm-param TableOfContents|TableOfContentsWrapper $toc
+     *
+     * @phpstan-param TableOfContents|TableOfContentsWrapper $toc
+     *
+     * @throws InvalidArgumentException
+     */
+    private function insertBeforeFirstLinkedHeading(Document $document, AbstractBlock $toc): void
     {
+        if (! $toc instanceof TableOfContents && ! $toc instanceof TableOfContentsWrapper) {
+            throw new InvalidArgumentException(
+                'Toc should be a TableOfContents or TableOfContentsWrapper, got ' . \get_class($toc)
+            );
+        }
         foreach ($document->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
             if (! $node instanceof Heading) {
                 continue;
@@ -93,8 +107,21 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
         }
     }
 
-    private function replacePlaceholders(Document $document, TableOfContents $toc): void
+    /**
+     * @psalm-param TableOfContents|TableOfContentsWrapper $toc
+     *
+     * @phpstan-param TableOfContents|TableOfContentsWrapper $toc
+     *
+     * @throws InvalidArgumentException
+     */
+    private function replacePlaceholders(Document $document, AbstractBlock $toc): void
     {
+        if (! $toc instanceof TableOfContents && ! $toc instanceof TableOfContentsWrapper) {
+            throw new InvalidArgumentException(
+                'Toc should be a TableOfContents or TableOfContentsWrapper, got ' . \get_class($toc)
+            );
+        }
+
         foreach ($document->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
             // Add the block once we find a placeholder
             if (! $node instanceof TableOfContentsPlaceholder) {

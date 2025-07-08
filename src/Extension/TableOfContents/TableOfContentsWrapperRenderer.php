@@ -25,16 +25,18 @@ final class TableOfContentsWrapperRenderer implements NodeRendererInterface, Xml
 {
     /**
      * {@inheritDoc}
+     * @throws InvalidArgumentException
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         TableOfContentsWrapper::assertInstanceOf($node);
         $children = $node->children();
-        if (count($children) !== 2) {
+        if (\count($children) !== 2) {
             throw new InvalidArgumentException(
-                'TableOfContentsWrapper nodes should have 2 children, found ' . count($children)
+                'TableOfContentsWrapper nodes should have 2 children, found ' . \count($children)
             );
         }
+
         $attrs = $node->data->get('attributes');
 
         return new HtmlElement(

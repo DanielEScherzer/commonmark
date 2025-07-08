@@ -13,24 +13,31 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\TableOfContents\Node;
 
+use InvalidArgumentException;
 use League\CommonMark\Node\Block\AbstractBlock;
 
 final class TableOfContentsWrapper extends AbstractBlock
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getInnerToc(): TableOfContents
     {
         $children = $this->children();
-        if (count($children) != 2) {
+        $children = \iterator_to_array($children);
+        if (\count($children) !== 2) {
             throw new InvalidArgumentException(
-                'TableOfContentsWrapper nodes should have 2 children, found ' . count($children)
+                'TableOfContentsWrapper nodes should have 2 children, found ' . \count($children)
             );
         }
+
         $inner = $children[1];
         if (! $inner instanceof TableOfContents) {
             throw new InvalidArgumentException(
-                'TableOfContentsWrapper second node should be a TableOfContents, found ' . get_class($inner)
+                'TableOfContentsWrapper second node should be a TableOfContents, found ' . \get_class($inner)
             );
         }
+
         return $inner;
     }
 }

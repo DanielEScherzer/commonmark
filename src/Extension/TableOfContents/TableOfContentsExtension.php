@@ -43,7 +43,7 @@ final class TableOfContentsExtension implements ConfigurableExtensionInterface
     public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment->addRenderer(TableOfContents::class, new TableOfContentsRenderer(new ListBlockRenderer()));
-        $environment->addRenderer(TableOfContentsWrapper::class, new TableOfContentsWrapperRenderer);
+        $environment->addRenderer(TableOfContentsWrapper::class, new TableOfContentsWrapperRenderer());
         $environment->addEventListener(DocumentParsedEvent::class, [new TableOfContentsBuilder(), 'onDocumentParsed'], -150);
 
         // phpcs:ignore SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
