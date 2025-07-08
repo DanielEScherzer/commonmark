@@ -18,6 +18,7 @@ use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalink;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsPlaceholder;
+use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsWrapper;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\NodeIterator;
 use League\Config\ConfigurationAwareInterface;
@@ -55,7 +56,11 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
         // Add custom CSS class(es), if defined
         $class = $this->config->get('table_of_contents/html_class');
         if ($class !== null) {
-            $toc->data->append('attributes/class', $class);
+            if ($toc instanceof TableOfContentsWrapper) {
+                $toc->getInnerToc()->data->append('attributes/class', $class);
+            } else {
+                $toc->data->append('attributes/class', $class);
+            }
         }
 
         // Add the TOC to the Document

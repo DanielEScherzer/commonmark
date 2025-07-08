@@ -21,10 +21,12 @@ use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalink;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
+use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsWrapper;
 use League\CommonMark\Extension\TableOfContents\Normalizer\AsIsNormalizerStrategy;
 use League\CommonMark\Extension\TableOfContents\Normalizer\FlatNormalizerStrategy;
 use League\CommonMark\Extension\TableOfContents\Normalizer\NormalizerStrategyInterface;
 use League\CommonMark\Extension\TableOfContents\Normalizer\RelativeNormalizerStrategy;
+use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\NodeIterator;
@@ -73,7 +75,11 @@ final class TableOfContentsGenerator implements TableOfContentsGeneratorInterfac
         }
     }
 
-    public function generate(Document $document): ?TableOfContents
+    /**
+     * If there is a table of contents, returns either a `TableOfContents` or
+     * `TableOfContentsWrapper` node object
+     */
+    public function generate(Document $document): ?AbstractBlock
     {
         $toc = $this->createToc($document);
 
@@ -120,7 +126,12 @@ final class TableOfContentsGenerator implements TableOfContentsGeneratorInterfac
         if ($this->label !== '') {
             $label = new Strong();
             $label->appendChild(new Text($this->label));
-            $toc->prependChild($label);
+            $wrapper = new TableOfContentsWrapper();
+            $wrapper->appendChild($label);
+            $wrapper->appendChild($toc);
+            $wrapper->setStartLine($toc->getStartLine());
+            $wrapper->setEndLine($toc->getEndLine());
+            return $wrapper;
         }
 
         return $toc;
