@@ -24,7 +24,10 @@ final class TableOfContentsWrapper extends AbstractBlock
     public function getInnerToc(): TableOfContents
     {
         $children = $this->children();
-        $children = \iterator_to_array($children);
+        if (! \is_array($children)) {
+            $children = \iterator_to_array($children);
+        }
+
         if (\count($children) !== 2) {
             throw new InvalidArgumentException(
                 'TableOfContentsWrapper nodes should have 2 children, found ' . \count($children)
